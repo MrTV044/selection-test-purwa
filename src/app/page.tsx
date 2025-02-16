@@ -20,7 +20,7 @@ export default function Home() {
 
   // 2. show double numbers
   function doubleDominoes() {
-    let current = [...dominoes];
+    const current = [...dominoes];
     let count = 0;
     for (let i = 0; i < current.length; i++) {
       if (current[i][0] === current[i][1]) {
@@ -74,37 +74,23 @@ export default function Home() {
   //   } else console.log(dominoes[i]);
   // }
 
-  function removeDuplicate(dominoes: number[][]) {
-    let arrayTotal: number[] = [];
-    console.log(arrayTotal);
+  //
 
-    function findDuplicates(array: any[]) {
-      return array.filter(
-        (item: any, index: any) => array.indexOf(item) !== index
-      );
-    }
+  function removeDuplicate() {
+    const sumCount = new Map();
+    dominoes.forEach(([a, b]) => {
+      const sum = a + b;
+      sumCount.set(sum, (sumCount.get(sum) || 0) + 1);
+    });
 
-    for (let i = 0; i < dominoes.length; i++) {
-      let a = dominoes[i][0] + dominoes[i][1];
-      console.log(a);
-
-      arrayTotal.push(a);
-      console.log(arrayTotal);
-
-      let testing = findDuplicates(arrayTotal);
-
-      if (testing.length !== arrayTotal.length - testing.length) {
-        console.log(dominoes[i]);
-      } else {
-        console.log(dominoes[i]);
-        setDominoes(dominoes[i]);
-      }
-    }
+    const filteredDominoes = dominoes.filter(
+      ([a, b]) => sumCount.get(a + b) === 1
+    );
+    setDominoes(filteredDominoes);
   }
-
   // 5. flip the numbers
   function flipDominoes() {
-    let flipped = [...dominoes];
+    const flipped = [...dominoes];
     for (let i = 0; i < flipped.length; i++) {
       const a = flipped[i][0];
       const b = flipped[i][1];
@@ -175,7 +161,7 @@ export default function Home() {
           <button className="btn" onClick={flipDominoes}>
             Flip
           </button>
-          <button className="btn" onClick={() => removeDuplicate(dominoes)}>
+          <button className="btn" onClick={removeDuplicate}>
             Remove Duplicate
           </button>
           <button className="btn" onClick={resetDominoes}>
